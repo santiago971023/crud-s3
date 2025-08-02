@@ -11,6 +11,8 @@ import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class S3ServiceImpl implements IS3Service {
@@ -62,6 +64,23 @@ public class S3ServiceImpl implements IS3Service {
             throw new IOException(e.getMessage());
         }
         return "Archivo encontrado";
+    }
+
+    public List<String> listFiles() throws IOException {
+        try{
+            ListObjectsRequest listObjectsRequest = ListObjectsRequest.builder()
+                    .bucket("bucket-first-api")
+                    .build();
+            List<S3Object> objects = s3Client.listObjects(listObjectsRequest).contents();
+            List<String> fileNames = new ArrayList<>();
+
+            for (S3Object object : objects) {
+                fileNames.add(object.key());
+            }
+            return fileNames;
+        } catch (S3Exception e){
+            throw new IOException(e.getMessage());
+        }
     }
 
     private boolean doesObjectExist(String objectKey){
