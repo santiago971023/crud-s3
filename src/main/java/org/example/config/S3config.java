@@ -28,7 +28,4 @@ public class S3config {
                 .build();
         return s3Client;
     }
-
-
-
 }

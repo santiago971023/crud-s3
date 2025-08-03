@@ -31,6 +31,24 @@ public class S3controller {
         return is3Service.listFiles();
     }
 
+    @DeleteMapping("/delete/{fileName}")
+    public String deleteFile(@PathVariable("fileName") String fileName) throws IOException {
+        return is3Service.deleteFile(fileName);
+    }
+
+    @PutMapping("/{oldFileName}/{newFileName}")
+    public String updateName(@PathVariable("oldFileName") String oldFileName, @PathVariable("newFileName") String newFileName) throws IOException {
+        return is3Service.renameFile(oldFileName, newFileName);
+    }
+
+    @PutMapping("/update/{oldFileName}")
+    public String updateFile(@RequestParam("file") MultipartFile file, @PathVariable("oldFileName") String oldFileName) throws IOException {
+        return is3Service.updateFile(file, oldFileName);
+    }
+
+
+
+
 
 
 }
